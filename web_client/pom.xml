@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>jaxws_streaming</artifactId>
+        <groupId>ru.asander</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>web_client</artifactId>
+
+    <dependencies>
+
+        <!--Зависимость на API сервиса. Если не хочется генерировать клиента-->
+       <!-- <dependency>
+            <groupId>ru.asander</groupId>
+            <artifactId>web_service_api</artifactId>
+            <version>${project.version}</version>
+        </dependency>-->
+
+        <dependency>
+            <groupId>com.beust</groupId>
+            <artifactId>jcommander</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.ws</groupId>
+            <artifactId>jaxws-rt</artifactId>
+        </dependency>
+    </dependencies>
+     <build>
+         <plugins>
+
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-compiler-plugin</artifactId>
+             </plugin>
+
+             <plugin>
+                 <groupId>org.codehaus.mojo</groupId>
+                 <artifactId>exec-maven-plugin</artifactId>
+                 <configuration>
+                     <mainClass>ru.asander.ws.client.StreamingClientRunner</mainClass>
+                     <arguments>
+                         <argument>-e</argument>
+                         <argument>http://localhost:8080/test/StreamFileService?wsdl</argument>
+                         <argument>-cs</argument>
+                         <argument>8192</argument>
+                     </arguments>
+                 </configuration>
+             </plugin>
+
+             <!--Плагин для генерации WS клиента по WSDL-->
+             <plugin>
+                 <groupId>org.jvnet.jax-ws-commons</groupId>
+                 <artifactId>jaxws-maven-plugin</artifactId>
+                 <!--
+                 =================================== WARNING !!!======================================
+                 IF YOU WANT USE MULTIPLE EXECUTIONS FOR WS CLIENTS YOU SHOULD USE STALE FLAG PROPERTY
+                 =================================== WARNING !!!======================================
+                 -->
+                 <executions>
+                     <execution>
+                         <id>wsimport-generate-StreamingWSClient</id>
+                         <goals>
+                             <goal>wsimport</goal>
+                         </goals>
+                         <phase>generate-sources</phase>
+                         <configuration>
+                             <target>2.0</target>
+                             <extension>true</extension>
+                             <bindingDirectory>${basedir}/src/main/resources/jaxws</bindingDirectory>
+                             <!--<bindingFiles>
+                                 <bindingFile>bindings.xjb</bindingFile>
+                             </bindingFiles>-->
+                             <verbose>true</verbose>
+                             <!--<keep>true</keep>-->
+                             <xadditionalHeaders>true</xadditionalHeaders>
+                             <sourceDestDir>${project.build.directory}/generated-sources/jaxws-wsimport</sourceDestDir>
+                             <!--<staleFile>${project.build.directory}/jaxws/streaming-client.staleFlag</staleFile>-->
+                             <wsdlDirectory>../web_service/web_service_impl/src/main/webapp/WEB-INF/wsdl</wsdlDirectory>
+                             <wsdlFiles>
+                                 <wsdlFile>StreamFileService.wsdl</wsdlFile>
+                             </wsdlFiles>
+                         </configuration>
+                     </execution>
+                 </executions>
+             </plugin>
+         </plugins>
+     </build>
+
+</project>

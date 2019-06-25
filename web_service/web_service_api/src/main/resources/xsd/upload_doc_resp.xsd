@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://asander.ru/ws/UploadDoc/resp"
+		   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		   xmlns="http://asander.ru/ws/UploadDoc/resp"
+		   xmlns:result="http://asander.ru/ws/common/result"
+		   version="20190610">
+	<xs:annotation>
+		<xs:documentation>Данное интеграционное сообщение описывает ответ на запрос создания нового документа клиента в ИС</xs:documentation>
+	</xs:annotation>
+	<xs:import namespace="http://asander.ru/ws/common/result" schemaLocation="common/common_result.xsd"/>
+	<xs:element name="UploadDocResp" type="UploadDocRespType">
+		<xs:annotation>
+			<xs:documentation>Ответ на запрос создания нового документа клиента в ИС</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="UploadDocRespType">
+		<xs:annotation>
+			<xs:documentation>Ответ на запрос создания нового документа клиента в ИС</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DocID" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>ID документа в ИС</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ResultData" type="result:IntegrationSimpleResultDataType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Блок результата обработки запроса</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

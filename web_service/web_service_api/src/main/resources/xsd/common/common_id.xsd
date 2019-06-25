@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+		   targetNamespace="http://asander.ru/ws/common/id"
+		   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		   xmlns="http://asander.ru/ws/common/id"
+		   xmlns:commid="http://asander.ru/ws/common/id"
+		   version="20190610"
+
+>
+	<xs:element name="IntegrationTypedSymbolicIdentifierType" type="IntegrationTypedSymbolicIdentifierType"/>
+	<xs:complexType name="IntegrationTypedSymbolicIdentifierType">
+		<xs:complexContent>
+			<xs:extension base="IntegrationSymbolicIdentifierType">
+				<xs:sequence>
+					<xs:element name="TypeCode" type="xs:string" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="DictionaryCode" type="xs:string" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="TypeId" type="xs:string" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="SymbolicIdentifierType" type="SymbolicIdentifierType"/>
+	<xs:complexType name="SymbolicIdentifierType">
+		<xs:annotation>
+			<xs:documentation>Символьный идентификатор</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Value" type="xs:string" minOccurs="1" maxOccurs="1" default="STUB_SYMBOLIC_ID"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="IntegrationSymbolicIdentifierType" type="IntegrationSymbolicIdentifierType"/>
+	<xs:complexType name="IntegrationSymbolicIdentifierType">
+		<xs:annotation>
+			<xs:documentation>Интеграционный символьный идентификатор (может хранить информацию об системе/приложении, в контексте которого существует идентификатор)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ObjectId" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Символьный идентификатор объекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SystemId" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Идентификатор системы/приложения, в контексте которой существует идентификатор объекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="UUIDIdentifierType" type="UUIDIdentifierType"/>
+	<xs:complexType name="UUIDIdentifierType">
+		<xs:annotation>
+			<xs:documentation>Идентификатор-UUID</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="SymbolicIdentifierType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="NumberIdentifierType" type="NumberIdentifierType"/>
+	<xs:complexType name="NumberIdentifierType">
+		<xs:annotation>
+			<xs:documentation>Числовой идентификатор</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Value" type="xs:long" minOccurs="1" maxOccurs="1" default="-999777555777999"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="IntegrationNumberIdentifierType" type="IntegrationNumberIdentifierType"/>
+	<xs:complexType name="IntegrationNumberIdentifierType">
+		<xs:annotation>
+			<xs:documentation>Интеграционный числовой идентификатор (по аналогии с инт-м символьным идентификатором)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ObjectId" type="xs:long" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="SystemId" type="xs:string" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="IntegrationSymbolicIdentifierXType" type="IntegrationSymbolicIdentifierXType"/>
+	<xs:complexType name="IntegrationSymbolicIdentifierXType">
+		<xs:annotation>
+			<xs:documentation>Интеграционный символьный идентификатор с поддержкой распределенной системы (может хранить информацию об системе/приложении, а также об ее узле/экземпляре, в контексте которого существует идентификатор)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ObjectId" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Идентификатор объекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SystemId" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>002-Идентификатор системы : Идентификатор системы/приложения, в контексте которой существует идентификатор объекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SystemNodeId" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>003-Идентификатор узла системы : Идентификатор узла системы/приложения, в контексте которой существует идентификатор объекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ErrorType">
+		<xs:annotation>
+			<xs:documentation>Базовый тип для возвращаемой приложением ошибки</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ErrorCode" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Код выработанной ошибки</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ErrorDesc" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Текстовое описание выработанной ошибки</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

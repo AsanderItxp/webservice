@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jaxb:bindings
+        xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:annox="http://annox.dev.java.net"
+        xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+        version="2.1">
+    <jaxb:globalBindings >
+        <xjc:javaType adapter="ru.asander.ws.adapter.DateAdapter" name="java.util.Date" xmlType="xs:dateTime"/>
+        <xjc:javaType adapter="ru.asander.ws.adapter.DateAdapter" name="java.util.Date" xmlType="xs:date"/>
+        <jaxb:serializable/>
+    </jaxb:globalBindings>
+
+    <jaxb:bindings schemaLocation="../xsd/upload_doc_req.xsd" node="/xs:schema">
+        <jaxb:bindings node="xs:complexType[@name='UploadDocReqType']">
+            <annox:annotate>
+                <annox:annotate annox:class="javax.xml.bind.annotation.XmlRootElement" name="UploadDocReq" namespace = "http://asander.ru/ws/UploadDoc/req" />
+            </annox:annotate>
+        </jaxb:bindings>
+    </jaxb:bindings>
+    <jaxb:bindings schemaLocation="../xsd/upload_doc_resp.xsd" node="/xs:schema">
+        <jaxb:bindings node="xs:complexType[@name='UploadDocRespType']">
+            <annox:annotate>
+                <annox:annotate annox:class="javax.xml.bind.annotation.XmlRootElement" name="UploadDocResp" namespace = "http://asander.ru/ws/UploadDoc/resp" />
+            </annox:annotate>
+        </jaxb:bindings>
+    </jaxb:bindings>
+</jaxb:bindings>

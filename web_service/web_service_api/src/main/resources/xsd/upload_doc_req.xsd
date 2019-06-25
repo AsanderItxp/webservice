@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://asander.ru/ws/UploadDoc/req"
+		   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		   xmlns="http://asander.ru/ws/UploadDoc/req"
+		   xmlns:commid="http://asander.ru/ws/common/id"
+		   xmlns:xmime="http://www.w3.org/2005/05/xmlmime"
+		   version="20190610">
+	<xs:annotation>
+		<xs:documentation>Данное интеграционное сообщение описывает атрибутный состав запроса из
+			Смежной ИС в текущую для создания нового документа клиента в ИС</xs:documentation>
+	</xs:annotation>
+	<xs:import namespace="http://asander.ru/ws/common/id" schemaLocation="common/common_id.xsd"/>
+	<xs:element name="UploadDocReq" type="UploadDocReqType">
+		<xs:annotation>
+			<xs:documentation>Запрос для создания нового документа клиента в ИС</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="UploadDocReqType">
+		<xs:annotation>
+			<xs:documentation>Запрос для создания нового документа клиента в ИС</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Client" type="commid:IntegrationSymbolicIdentifierXType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Идентификатор клиента в АБС</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Source" type="SourceType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Информация об авторе документа</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Document" type="DocumentType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Информация о документе</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SourceType">
+		<xs:annotation>
+			<xs:documentation>Информация об авторе документа</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Creator" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Логин пользователя (полный, с доменом), загрузившего документ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CodeRF" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Код регионального филиала пользователя</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SourceID" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Идентификатор внешней системы</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DocumentType">
+		<xs:annotation>
+			<xs:documentation>Информация о документе</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Data" type="xs:base64Binary" minOccurs="1" maxOccurs="1"
+						xmime:expectedContentTypes="application/octet-stream">
+				<xs:annotation>
+					<xs:documentation>Тело документа</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DocType" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Тип документа</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DocName" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Имя файла</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Fields" type="DocFieldListType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Метаинформация документа</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DocFieldListType">
+		<xs:annotation>
+			<xs:documentation>Список полей документа</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DocField" type="DocFieldType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Поле документа</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DocFieldType">
+		<xs:annotation>
+			<xs:documentation>Информация о поле документа</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Name" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Наименование поля</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Value" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Значение поля</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FieldType" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Тип поля</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

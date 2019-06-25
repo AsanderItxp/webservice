@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+		targetNamespace="http://asander.ru/ws/common/result"
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		xmlns="http://asander.ru/ws/common/result"
+		xmlns:result="http://asander.ru/ws/common/result"
+		xmlns:error="http://asander.ru/ws/common/error"
+		version="20190610"
+>
+	<xs:import namespace="http://asander.ru/ws/common/error" schemaLocation="common_error.xsd"/>
+	<xs:complexType name="IntegrationSimpleResultDataType">
+		<xs:annotation>
+			<xs:documentation>Базовый тип для возвращаемого приложением результата обработки операции</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ResultCode" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Код результата обработки операции</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ErrorData" type="error:IntegrationSimpleErrorDataType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Информация по возникшей ошибке</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>
