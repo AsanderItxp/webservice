@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
-
+     <!-->>> =============== Web service context init =========================-->
     <listener>
         <listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
     </listener>
@@ -17,5 +17,95 @@
         <servlet-name>ru.asander.ws</servlet-name>
         <url-pattern>/StreamFileService</url-pattern>
     </servlet-mapping>
+    <!--<<< =============== Web service context init ==========================-->
+
+    <!-->>> =============== Metrics.Health context init ===============================-->
+    <listener>
+        <listener-class>ru.asander.health.servlets.MyHealthCheckServletContextListener</listener-class>
+    </listener>
+    <servlet>
+        <servlet-name>healthCheck</servlet-name>
+        <servlet-class>com.codahale.metrics.servlets.HealthCheckServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>healthCheck</servlet-name>
+        <url-pattern>/health</url-pattern>
+    </servlet-mapping>
+    <!--<<< =============== Metrics.Health context init ===============================-->
+
+    <!-->>> =============== Metrics.Thread dump context init ==========================-->
+    <servlet>
+        <servlet-name>threadDump</servlet-name>
+        <servlet-class>com.codahale.metrics.servlets.ThreadDumpServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>threadDump</servlet-name>
+        <url-pattern>/threaddump</url-pattern>
+    </servlet-mapping>
+    <!--<<< =============== Metrics.Thread dump context init ==========================-->
+
+    <!-->>> =============== Metrics.Ping context init =================================-->
+    <servlet>
+        <servlet-name>ping</servlet-name>
+        <servlet-class>com.codahale.metrics.servlets.PingServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ping</servlet-name>
+        <url-pattern>/ping</url-pattern>
+    </servlet-mapping>
+    <!--<<< =============== Metrics.Ping context init =================================-->
+
+    <!-->>> =============== Metrics.Metrics context init ==============================-->
+    <listener>
+        <listener-class>ru.asander.health.servlets.MyMetricsServletContextListener</listener-class>
+    </listener>
+    <servlet>
+        <servlet-name>metrics</servlet-name>
+        <servlet-class>com.codahale.metrics.servlets.MetricsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>metrics</servlet-name>
+        <url-pattern>/metrics</url-pattern>
+    </servlet-mapping>
+    <!--<<< =============== Metrics.Metrics context init ==============================-->
+
+    <!--<<< =============== Metrics.Admin context init ================================-->
+    <servlet>
+        <servlet-name>admin</servlet-name>
+        <servlet-class>com.codahale.metrics.servlets.AdminServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>admin</servlet-name>
+        <url-pattern>/admin/*</url-pattern>
+    </servlet-mapping>
+    <!-->>> =============== Metrics.Admin context init ================================-->
+
+    <!-->>> =============== Metrics.listener context init =============================-->
+    <listener>
+        <listener-class>ru.asander.health.servlets.MyInstrumentedFilterContextListener</listener-class>
+    </listener>
+
+    <filter>
+        <filter-name>instrumentFilter</filter-name>
+        <filter-class>com.codahale.metrics.servlet.InstrumentedFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>instrumentFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <!--<<< =============== Metrics.listener context init =============================-->
+
+    <!-->>> =============== Metrics.prometheus ========================================-->
+    <servlet>
+        <servlet-name>prometheusMetrics</servlet-name>
+        <servlet-class>io.prometheus.client.exporter.MetricsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>prometheusMetrics</servlet-name>
+        <url-pattern>/prometheusMetrics/*</url-pattern>
+    </servlet-mapping>
+    
+    <!--<<< =============== Metrics.prometheus ========================================-->
+
 
 </web-app>

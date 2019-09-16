@@ -12,13 +12,11 @@
     <artifactId>web_service_impl</artifactId>
 
     <dependencies>
-
         <dependency>
             <groupId>ru.asander</groupId>
             <artifactId>web_service_api</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-        
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
@@ -61,6 +59,45 @@
             <artifactId>jaxws-rt</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-healthchecks</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-servlets</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-servlet</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-annotation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient_dropwizard</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient_servlet</artifactId>
+        </dependency>
+        
+        <!--https://github.com/astefanutti/metrics-aspectj-->
+        <dependency>
+            <groupId>io.astefanutti.metrics.aspectj</groupId>
+            <artifactId>metrics-aspectj</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
@@ -68,7 +105,6 @@
     </dependencies>
     <build>
         <plugins>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -92,6 +128,7 @@
                             <verbose>true</verbose>
                             <inlineSchemas>true</inlineSchemas>
                             <extension>true</extension>
+                            <!--<protocol>soap1.1</protocol>-->
                             <protocol>Xsoap1.2</protocol>
                         </configuration>
                     </execution>
@@ -127,6 +164,20 @@
                     <server>TomcatServer</server>
                     <path>/test</path>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <!--Подключение Аспекта для работы аннотаций Metrics-->
+                <!--https://github.com/astefanutti/metrics-aspectj -->
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

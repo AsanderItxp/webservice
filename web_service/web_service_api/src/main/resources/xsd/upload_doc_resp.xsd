@@ -18,14 +18,41 @@
 			<xs:documentation>Ответ на запрос создания нового документа клиента в ИС</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="DocID" type="xs:string" minOccurs="0" maxOccurs="1">
+			<xs:element name="ClientID" type="xs:ID"  minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>ID документа в ИС</xs:documentation>
+					<xs:documentation>ID созданного/найденного клиента(каталога) в АСОА, под которым будет сохранен документ.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="ResultData" type="result:IntegrationSimpleResultDataType" minOccurs="1" maxOccurs="1">
+			<xs:element name="DossierID" type="xs:ID"  minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>ID созданного/найденного досъе(каталога) в АСОА, под которым будет сохранен документ.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ResultData" type="result:IntegrationSimpleResultDataType">
 				<xs:annotation>
 					<xs:documentation>Блок результата обработки запроса</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Document" type="DocumentType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Информация по загруженному документу в АСОА</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DocumentType">
+		<xs:annotation>
+			<xs:documentation>Тип описания информации по загруженному документу в АСОА</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DocID" type="xs:ID" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>ID документа в АСОА</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DocURL" type="xs:anyURI" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>URL на просмотр электронного образа в интерфейсе АСОА</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>

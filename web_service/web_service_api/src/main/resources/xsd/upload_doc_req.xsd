@@ -30,7 +30,7 @@
 					<xs:documentation>Информация об авторе документа</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="Document" type="DocumentType" minOccurs="1" maxOccurs="1">
+			<xs:element name="Documents" type="DocumentType" minOccurs="1" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Информация о документе</xs:documentation>
 				</xs:annotation>
@@ -64,8 +64,7 @@
 			<xs:documentation>Информация о документе</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="Data" type="xs:base64Binary" minOccurs="1" maxOccurs="1"
-						xmime:expectedContentTypes="application/octet-stream">
+			<xs:element name="Data" type="xs:base64Binary" xmime:expectedContentTypes="application/octet-stream">
 				<xs:annotation>
 					<xs:documentation>Тело документа</xs:documentation>
 				</xs:annotation>

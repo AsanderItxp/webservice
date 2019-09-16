@@ -15,6 +15,7 @@
     <properties>
         <jdk.version>1.8</jdk.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <metrics.version>4.1.0</metrics.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -74,6 +75,67 @@
                 <artifactId>jaxws-rt</artifactId>
                 <version>2.2.6</version>
             </dependency>
+
+            <!--================================-->
+            <!--Зависимости для metrics + checks-->
+            <!--Хорошее описание https://www.baeldung.com/dropwizard-metrics-->
+            <dependency>
+                <groupId>io.dropwizard.metrics</groupId>
+                <artifactId>metrics-core</artifactId>
+                <version>${metrics.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/io.dropwizard.metrics/metrics-healthchecks -->
+            <dependency>
+                <groupId>io.dropwizard.metrics</groupId>
+                <artifactId>metrics-healthchecks</artifactId>
+                <version>${metrics.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.dropwizard.metrics</groupId>
+                <artifactId>metrics-servlets</artifactId>
+                <version>${metrics.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.dropwizard.metrics</groupId>
+                <artifactId>metrics-servlet</artifactId>
+                <version>${metrics.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.dropwizard.metrics</groupId>
+                <artifactId>metrics-annotation</artifactId>
+                <version>${metrics.version}</version>
+            </dependency>
+           <!--Метрики в prometheus-->
+            <!--https://www.robustperception.io/exposing-dropwizard-metrics-to-prometheus-->
+            <!--http://www.matez.de/index.php/2017/06/23/jax-rs-codahaledropwizard-metrics-cdi-prometheus/-->
+            <dependency>
+                <groupId>io.prometheus</groupId>
+                <artifactId>simpleclient_dropwizard</artifactId>
+                <version>0.0.23</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.prometheus</groupId>
+                <artifactId>simpleclient_servlet</artifactId>
+                <version>0.0.23</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.astefanutti.metrics.aspectj</groupId>
+                <artifactId>metrics-aspectj</artifactId>
+                <version>1.1.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjrt</artifactId>
+                <version>1.9.4</version>
+            </dependency>
+            <!--================================-->
+            
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
@@ -122,7 +184,6 @@
                     <artifactId>maven-antrun-plugin</artifactId>
                     <version>1.7</version>
                 </plugin>
-
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
@@ -146,6 +207,30 @@
                             </goals>
                         </execution>
                     </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>aspectj-maven-plugin</artifactId>
+                    <version>1.11</version>
+                    <configuration>
+                        <source>1.8</source>
+                        <target>1.8</target>
+                        <complianceLevel>1.8</complianceLevel>
+                        <aspectLibraries>
+                            <aspectLibrary>
+                                <groupId>io.astefanutti.metrics.aspectj</groupId>
+                                <artifactId>metrics-aspectj</artifactId>
+                            </aspectLibrary>
+                        </aspectLibraries>
+                    </configuration>
+                    <dependencies>
+                        <!--  Ensure aspectj tools version used by compiler is the same version used as dependency. Avoids warning-->
+                        <dependency>
+                            <groupId>org.aspectj</groupId>
+                            <artifactId>aspectjtools</artifactId>
+                            <version>1.9.4</version>
+                        </dependency>
+                    </dependencies>
                 </plugin>
             </plugins>
         </pluginManagement>

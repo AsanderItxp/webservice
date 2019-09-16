@@ -13,11 +13,11 @@
     <dependencies>
 
         <!--Зависимость на API сервиса. Если не хочется генерировать клиента-->
-       <!-- <dependency>
+        <dependency>
             <groupId>ru.asander</groupId>
             <artifactId>web_service_api</artifactId>
             <version>${project.version}</version>
-        </dependency>-->
+        </dependency>
 
         <dependency>
             <groupId>com.beust</groupId>
@@ -46,12 +46,10 @@
     </dependencies>
      <build>
          <plugins>
-
              <plugin>
                  <groupId>org.apache.maven.plugins</groupId>
                  <artifactId>maven-compiler-plugin</artifactId>
              </plugin>
-
              <plugin>
                  <groupId>org.codehaus.mojo</groupId>
                  <artifactId>exec-maven-plugin</artifactId>
@@ -65,16 +63,13 @@
                      </arguments>
                  </configuration>
              </plugin>
-
-             <!--Плагин для генерации WS клиента по WSDL-->
-             <plugin>
+            <!--Плагин для генерации WS клиента по WSDL-->
+            <!--<plugin>
                  <groupId>org.jvnet.jax-ws-commons</groupId>
                  <artifactId>jaxws-maven-plugin</artifactId>
-                 <!--
-                 =================================== WARNING !!!======================================
-                 IF YOU WANT USE MULTIPLE EXECUTIONS FOR WS CLIENTS YOU SHOULD USE STALE FLAG PROPERTY
-                 =================================== WARNING !!!======================================
-                 -->
+                 &lt;!&ndash;=================================== WARNING !!!======================================&ndash;&gt;
+                 &lt;!&ndash;IF YOU WANT USE MULTIPLE EXECUTIONS FOR WS CLIENTS YOU SHOULD USE STALE FLAG PROPERTY&ndash;&gt;
+                 &lt;!&ndash;=================================== WARNING !!!======================================&ndash;&gt;
                  <executions>
                      <execution>
                          <id>wsimport-generate-StreamingWSClient</id>
@@ -86,14 +81,14 @@
                              <target>2.0</target>
                              <extension>true</extension>
                              <bindingDirectory>${basedir}/src/main/resources/jaxws</bindingDirectory>
-                             <!--<bindingFiles>
+                             <bindingFiles>
                                  <bindingFile>bindings.xjb</bindingFile>
-                             </bindingFiles>-->
+                             </bindingFiles>
                              <verbose>true</verbose>
-                             <!--<keep>true</keep>-->
+                             <keep>true</keep>
                              <xadditionalHeaders>true</xadditionalHeaders>
                              <sourceDestDir>${project.build.directory}/generated-sources/jaxws-wsimport</sourceDestDir>
-                             <!--<staleFile>${project.build.directory}/jaxws/streaming-client.staleFlag</staleFile>-->
+                             <staleFile>${project.build.directory}/jaxws/StreamingWSClient.staleFlag</staleFile>
                              <wsdlDirectory>../web_service/web_service_impl/src/main/webapp/WEB-INF/wsdl</wsdlDirectory>
                              <wsdlFiles>
                                  <wsdlFile>StreamFileService.wsdl</wsdlFile>
@@ -101,7 +96,7 @@
                          </configuration>
                      </execution>
                  </executions>
-             </plugin>
+             </plugin>-->
          </plugins>
      </build>
 
