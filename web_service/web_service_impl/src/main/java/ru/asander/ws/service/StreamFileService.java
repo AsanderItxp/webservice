@@ -6,15 +6,15 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.asander.ws.common.result.IntegrationSimpleResultDataType;
-import ru.asander.ws.uploaddoc.resp.UploadDocRespType;
 import ru.asander.ws.uploaddoc.req.UploadDocReqType;
+import ru.asander.ws.uploaddoc.resp.UploadDocRespType;
 
+import javax.activation.DataHandler;
 import javax.jws.WebService;
-import javax.xml.ws.BindingType;
 import javax.xml.ws.WebServiceException;
 import javax.xml.ws.soap.MTOM;
-import javax.xml.ws.soap.SOAPBinding;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -34,37 +34,47 @@ import java.io.OutputStream;
         endpointInterface = "ru.asander.ws.service.StreamService")
 
 @StreamingAttachment(
-        parseEagerly = true,      //TRUE - Сперва ждем загрузки файла. FALSE - Наоборот сначала вход в метод потом качаем стрим.
-        memoryThreshold = 40000L  //Размер буфера для хранения в памяти.
-        //dir = "U:\\temp"        //Временный каталог сохранения данных.
+        parseEagerly = false,      //TRUE - Сперва ждем загрузки файла. FALSE - Наоборот сначала вход в метод потом качаем стрим.
+        memoryThreshold = 40000L,  //Размер буфера для хранения в памяти.
+        dir = "U:\\temp"        //Временный каталог сохранения данных.
 )
-@BindingType(value = SOAPBinding.SOAP12HTTP_MTOM_BINDING)
 @MTOM
 public class StreamFileService implements StreamService {
-    private static final Logger LOG = LoggerFactory.getLogger(StreamFileService.class);
+    private static final Logger log = LoggerFactory.getLogger(StreamFileService.class);
 
     public UploadDocRespType uploadDoc(UploadDocReqType req) {
-        LOG.info("\n =============================== ");
-        LOG.debug("\nin uploadDoc started...");
+        log.info("\n =============================== ");
+        log.debug("\nin uploadDoc started...");
+        StreamingDataHandler sdh = null;
+        InputStream in = null;
+        OutputStream out = null;
+        try {
+            DataHandler dh = req.getDocument().getData();
 
-        try (
+            if (dh instanceof StreamingDataHandler) {
+                sdh = (StreamingDataHandler) dh;
+                in = sdh.readOnce(); // после прочтения файл автоматически удаляется. Поток более не доступен.
+                log.info("StreamingDataHandler: name: {}", sdh.getName());
+                log.info("StreamingDataHandler: contentType: {}", sdh.getContentType());
+            } else {
+                in = dh.getInputStream();
+                //throw new UnsupportedDataTypeException("Не поддерживаемый тип данных. Ожидается  StreamingDataHandler получено : " + dh.getClass());
+            }
 
-                StreamingDataHandler sdh = (StreamingDataHandler) req.getDocument().getData();
-                InputStream in = sdh.readOnce(); // после прочтения файл автоматически удаляется. Поток более не доступен.
-                OutputStream out = new FileOutputStream(req.getDocument().getDocName());
-        ) {
-            LOG.debug("in uploadDoc finished received");
-            LOG.debug("in uploadDoc dataHandler ...{}\n", req.getDocument().getData());
+            out = new FileOutputStream(req.getDocument().getDocName());
 
-
-            LOG.info("StreamingDataHandler: name: {}", sdh.getName());
-            LOG.info("StreamingDataHandler: contentType: {}", sdh.getContentType());
-
+            log.debug("in uploadDoc finished received");
             IOUtils.copy(in, out);
-            LOG.debug("in uploadDoc file moved to {}", req.getDocument().getDocName());
-            LOG.info("\n===============================");
+            log.debug("in uploadDoc file moved to {}", req.getDocument().getDocName());
+            log.info("\n===============================");
+
         } catch (Exception e) {
             throw new WebServiceException(e);
+        } finally {
+            //Java6
+            IOUtils.closeQuietly(in);
+            IOUtils.closeQuietly(out);
+            IOUtils.closeQuietly(sdh);
         }
 
         UploadDocRespType response = new UploadDocRespType();

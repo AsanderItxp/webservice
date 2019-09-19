@@ -13,15 +13,16 @@
     <dependencies>
 
         <!--Зависимость на API сервиса. Если не хочется генерировать клиента-->
-       <!-- <dependency>
-            <groupId>ru.asander</groupId>
-            <artifactId>web_service_api</artifactId>
-            <version>${project.version}</version>
-        </dependency>-->
+       <!--<dependency>-->
+            <!--<groupId>ru.asander</groupId>-->
+            <!--<artifactId>web_service_api</artifactId>-->
+            <!--<version>${project.version}</version>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>com.beust</groupId>
             <artifactId>jcommander</artifactId>
+            <version>1.27</version>
         </dependency>
         <dependency>
             <groupId>log4j</groupId>
@@ -43,6 +44,17 @@
             <groupId>com.sun.xml.ws</groupId>
             <artifactId>jaxws-rt</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.sun.xml.parsers</groupId>
+            <artifactId>jaxp-ri</artifactId>
+            <version>1.4.5</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>jaxp-api</artifactId>
+                    <groupId>javax.xml.parsers</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
     </dependencies>
      <build>
          <plugins>
@@ -50,19 +62,14 @@
              <plugin>
                  <groupId>org.apache.maven.plugins</groupId>
                  <artifactId>maven-compiler-plugin</artifactId>
-             </plugin>
-
-             <plugin>
-                 <groupId>org.codehaus.mojo</groupId>
-                 <artifactId>exec-maven-plugin</artifactId>
+                 <version>3.3</version>
+                 <extensions>true</extensions>
                  <configuration>
-                     <mainClass>ru.asander.ws.client.StreamingClientRunner</mainClass>
-                     <arguments>
-                         <argument>-e</argument>
-                         <argument>http://localhost:8080/test/StreamFileService?wsdl</argument>
-                         <argument>-cs</argument>
-                         <argument>8192</argument>
-                     </arguments>
+                     <source>1.6</source>
+                     <target>1.6</target>
+                     <encoding>UTF-8</encoding>
+                     <fork>true</fork>
+                     <compilerVersion>1.6</compilerVersion>
                  </configuration>
              </plugin>
 
@@ -94,6 +101,10 @@
                              <xadditionalHeaders>true</xadditionalHeaders>
                              <sourceDestDir>${project.build.directory}/generated-sources/jaxws-wsimport</sourceDestDir>
                              <!--<staleFile>${project.build.directory}/jaxws/streaming-client.staleFlag</staleFile>-->
+                             
+                             <!--<wsdlUrls>-->
+                                 <!--<wsdlUrl>http://localhost:8080/test/StreamFileService?wsdl</wsdlUrl>-->
+                             <!--</wsdlUrls>-->
                              <wsdlDirectory>../web_service/web_service_impl/src/main/webapp/WEB-INF/wsdl</wsdlDirectory>
                              <wsdlFiles>
                                  <wsdlFile>StreamFileService.wsdl</wsdlFile>

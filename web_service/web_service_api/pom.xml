@@ -12,11 +12,6 @@
     <artifactId>web_service_api</artifactId>
     <dependencies>
         <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
         </dependency>
@@ -40,10 +35,10 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-io</artifactId>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.apache.commons</groupId>-->
+            <!--<artifactId>commons-io</artifactId>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>com.sun.xml.ws</groupId>
             <artifactId>jaxws-rt</artifactId>
@@ -52,17 +47,20 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-            </plugin>
-            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jaxb2-maven-plugin</artifactId>
+                <version>2.2</version>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>
@@ -76,13 +74,13 @@
                     <arguments>
                         <argument>-Xannotate</argument>
                         <argument>-npa</argument>
+                        <!--See https://area-51.blog/2010/05/18/implementing-builders-with-jaxb-generated-objects/-->
                     </arguments>
                     <xjbSources>
-                        <source>${basedir}/src/main/resources/jaxws/bindings.xjb</source>
+                        <source>${basedir}/src/main/resources/xjc/bindings.xjb</source>
                     </xjbSources>
                     <extension>true</extension>
                     <noPackageLevelAnnotations>false</noPackageLevelAnnotations>
-                    <!--<packageName>ru.asander.ws.model</packageName>-->
                     <sources>
                         <source>${basedir}/src/main/resources/xsd/</source>
                     </sources>
@@ -90,6 +88,13 @@
                     <sourceType>xmlschema</sourceType>
                     <target>2.1</target>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.jvnet.jaxb2_commons</groupId>
+                        <artifactId>jaxb2-basics-annotate</artifactId>
+                        <version>0.6.4</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>

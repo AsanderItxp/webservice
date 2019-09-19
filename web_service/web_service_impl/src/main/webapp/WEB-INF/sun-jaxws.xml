@@ -4,8 +4,13 @@
     <endpoint
            name="StreamFileService Implementation"
            implementation="ru.asander.ws.service.StreamFileService"
-           wsdl="WEB-INF/wsdl/StreamFileService.wsdl"
-           binding="http://java.sun.com/xml/ns/jaxws/2003/05/soap/bindings/HTTP/"
-           url-pattern="/StreamFileService"/>
+           url-pattern="/StreamFileService" enable-mtom="true" />
+
+    <!--<endpoint-->
+            <!--name="StreamFileService Implementation"-->
+            <!--implementation="ru.asander.ws.service.StreamFileService"-->
+            <!--wsdl="WEB-INF/wsdl/StreamFileService.wsdl"-->
+            <!--binding="http://java.sun.com/xml/ns/jaxws/2003/05/soap/bindings/HTTP/"-->
+            <!--url-pattern="/StreamFileService"/>-->
 
 </endpoints>

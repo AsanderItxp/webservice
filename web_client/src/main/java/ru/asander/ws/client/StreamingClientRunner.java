@@ -7,24 +7,20 @@ import com.sun.xml.ws.developer.StreamingDataHandler;
 import com.sun.xml.ws.encoding.DataSourceStreamingDataHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import ru.asander.ws.service.StreamService;
+import ru.asander.ws.uploaddoc.req.DocumentType;
+import ru.asander.ws.uploaddoc.req.UploadDocReqType;
+import ru.asander.ws.uploaddoc.resp.UploadDocRespType;
 
 import javax.activation.FileDataSource;
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.UUID;
-
-import ru.asander.ws.common.result.IntegrationSimpleResultDataType;
-import ru.asander.ws.uploaddoc.req.UploadDocReqType;
-import ru.asander.ws.uploaddoc.resp.UploadDocRespType;
-import ru.asander.ws.uploaddoc.req.DocumentType;
 
 /**
  * ========== StreamingClient.java ==========
@@ -39,7 +35,7 @@ import ru.asander.ws.uploaddoc.req.DocumentType;
 public class StreamingClientRunner {
     private static final Logger LOG = LoggerFactory.getLogger(StreamingClientRunner.class);
 
-    private final static QName  STREAM_FILE_SERVICE_QNAME = new QName("http://www.asander.ru/ws/service/", "StreamFileService");
+    private final static QName STREAM_FILE_SERVICE_QNAME = new QName("http://www.asander.ru/ws/service/", "StreamFileService");
 
     //Use big file for transfer through stream.   Here is an example.
     private final static URL SOURCE_FILE_URL = StreamingClientRunner.class.getClassLoader().getResource("data/source_file_book.pdf");
@@ -47,16 +43,14 @@ public class StreamingClientRunner {
 
     public static void main(String[] args) throws IOException {
         Args cmd = new Args();
-        JCommander.newBuilder()
-                .addObject(cmd)
-                .build()
-                .parse(args);
-
+        JCommander commander = new JCommander();
+        commander.addObject(cmd);
+        commander.parse(args);
 
         LOG.info("\n ===============================");
         //create service endpoint
         URL wsdlLocation = new URL(cmd.endpoint);
-        LOG.debug("Creating service for endpoint: {} and chunkSize: {}", cmd.endpoint,  cmd.chunkSize);
+        LOG.debug("Creating service for endpoint: {} and chunkSize: {}", cmd.endpoint, cmd.chunkSize);
         //Creating web-service client
         Service service = Service.create(wsdlLocation, STREAM_FILE_SERVICE_QNAME);
         // Getting service port via Service Interface.
@@ -70,10 +64,12 @@ public class StreamingClientRunner {
         }
 
         LOG.debug("Service created!");
-
+        StreamingDataHandler dh = null;
         //Create DataHandler for file
-        try (StreamingDataHandler dh = new DataSourceStreamingDataHandler(
-                new FileDataSource(Objects.requireNonNull(SOURCE_FILE_URL).getFile()))) {
+        try {
+
+            dh = new DataSourceStreamingDataHandler(new FileDataSource(new File("U:\\source_file.bin"))); //TODO NPE
+//            dh = new DataSourceStreamingDataHandler(new FileDataSource(SOURCE_FILE_URL.getFile())); //TODO NPE
             UploadDocReqType docReqType = new UploadDocReqType();
             DocumentType dt = new DocumentType();
             dt.setDocName(DESTINATION_FILE_PATH);
@@ -84,13 +80,12 @@ public class StreamingClientRunner {
             LOG.info("Call uploadDoc web-method. Waiting...");
             UploadDocRespType response = port.uploadDoc(docReqType);
 
-            if (Optional.of(response)
-                    .map(UploadDocRespType::getResultData)
-                    .map(IntegrationSimpleResultDataType::getResultCode).filter(resultData -> resultData.equals("Ok")).isPresent()) {
+            if (response != null && response.getResultData() != null && "Ok".equals(response.getResultData().getResultCode())) {
                 LOG.info("Upload doc executed SUCCESS and saved to {} on server! ", DESTINATION_FILE_PATH);
             }
-            ;
             LOG.info("Finished.");
+        } catch (Exception e) {
+            LOG.error("Error executed service:  Details: {}", e);
         }
 
         LOG.info("\n ===============================");

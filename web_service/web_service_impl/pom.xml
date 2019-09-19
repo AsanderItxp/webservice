@@ -29,10 +29,6 @@
             <artifactId>commons-io</artifactId>
         </dependency>
         <dependency>
-            <groupId>net.lingala.zip4j</groupId>
-            <artifactId>zip4j</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-csv</artifactId>
         </dependency>
@@ -53,10 +49,6 @@
             <artifactId>logback-classic</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-io</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.sun.xml.ws</groupId>
             <artifactId>jaxws-rt</artifactId>
         </dependency>
@@ -64,6 +56,18 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.xml.parsers</groupId>
+            <artifactId>jaxp-ri</artifactId>
+            <version>1.4.5</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>jaxp-api</artifactId>
+                    <groupId>javax.xml.parsers</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
     <build>
@@ -92,7 +96,8 @@
                             <verbose>true</verbose>
                             <inlineSchemas>true</inlineSchemas>
                             <extension>true</extension>
-                            <protocol>Xsoap1.2</protocol>
+                            <!--<protocol>Xsoap1.2</protocol>-->
+                            <protocol>soap1.1</protocol>
                         </configuration>
                     </execution>
                 </executions>
@@ -101,12 +106,12 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
-                    <archive>
-                        <manifestEntries>
-                            <!-- Отключаем вебсферовскую реализацию JAX-WS в пользу Metro -->
-                            <DisableIBMJAXWSEngine>true</DisableIBMJAXWSEngine>
-                        </manifestEntries>
-                    </archive>
+                    <!--<archive>-->
+                        <!--<manifestEntries>-->
+                            <!--&lt;!&ndash; Отключаем вебсферовскую реализацию JAX-WS в пользу Metro &ndash;&gt;-->
+                            <!--<DisableIBMJAXWSEngine>true</DisableIBMJAXWSEngine>-->
+                        <!--</manifestEntries>-->
+                    <!--</archive>-->
                     <webResources>
                         <resource>
                             <directory>${basedir}/src/main/webapp/WEB-INF</directory>
