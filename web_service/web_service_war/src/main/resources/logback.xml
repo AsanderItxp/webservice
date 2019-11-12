@@ -1,5 +1,5 @@
 <configuration scan="true" interval="20">
-    <property name="LOG_DIRECTORY" value="\var\logs\webservice"/>
+    <property name="LOG_DIRECTORY" value="\\var\\logs\\webservice"/>
     <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener"/>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">

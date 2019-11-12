@@ -1,6 +1,5 @@
 package ru.asander.ws.service;
 
-import com.sun.xml.ws.developer.StreamingAttachment;
 import com.sun.xml.ws.developer.StreamingDataHandler;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -10,11 +9,12 @@ import ru.asander.ws.uploaddoc.req.UploadDocReqType;
 import ru.asander.ws.uploaddoc.resp.UploadDocRespType;
 
 import javax.activation.DataHandler;
+import javax.ejb.Local;
+import javax.ejb.Stateless;
 import javax.jws.WebService;
 import javax.xml.ws.WebServiceException;
 import javax.xml.ws.soap.MTOM;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -28,16 +28,18 @@ import java.io.OutputStream;
  * <p/>
  * 07.06.2019 15:14: Original version (AAVolkov)<br/>
  */
+@Local
+@Stateless
 @WebService(portName = "StreamFileServicePort",
         serviceName = "StreamFileService",
         targetNamespace = "http://www.asander.ru/ws/service/",
         endpointInterface = "ru.asander.ws.service.StreamService")
 
-@StreamingAttachment(
-        parseEagerly = false,      //TRUE - Сперва ждем загрузки файла. FALSE - Наоборот сначала вход в метод потом качаем стрим.
-        memoryThreshold = 40000L,  //Размер буфера для хранения в памяти.
-        dir = "U:\\temp"        //Временный каталог сохранения данных.
-)
+//@StreamingAttachment(
+//        parseEagerly = false,      //TRUE - Сперва ждем загрузки файла. FALSE - Наоборот сначала вход в метод потом качаем стрим.
+//        memoryThreshold = 40000L//,  //Размер буфера для хранения в памяти.
+//        //dir = "U:\\temp"        //Временный каталог сохранения данных.
+//)
 @MTOM
 public class StreamFileService implements StreamService {
     private static final Logger log = LoggerFactory.getLogger(StreamFileService.class);

@@ -105,7 +105,7 @@
                              <!--<wsdlUrls>-->
                                  <!--<wsdlUrl>http://localhost:8080/test/StreamFileService?wsdl</wsdlUrl>-->
                              <!--</wsdlUrls>-->
-                             <wsdlDirectory>../web_service/web_service_impl/src/main/webapp/WEB-INF/wsdl</wsdlDirectory>
+                             <wsdlDirectory>../web_service/web_service_war/src/main/webapp/WEB-INF/wsdl</wsdlDirectory>
                              <wsdlFiles>
                                  <wsdlFile>StreamFileService.wsdl</wsdlFile>
                              </wsdlFiles>

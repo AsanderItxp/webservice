@@ -12,6 +12,8 @@
     <modules>
         <module>web_service_api</module>
         <module>web_service_impl</module>
+        <module>web_service_ear</module>
+        <module>web_service_war</module>
     </modules>
     <packaging>pom</packaging>
 </project>

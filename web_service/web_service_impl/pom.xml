@@ -7,9 +7,9 @@
         <groupId>ru.asander</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <packaging>war</packaging>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>web_service_impl</artifactId>
+    <packaging>ejb</packaging>
 
     <dependencies>
 
@@ -48,90 +48,29 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
         </dependency>
+       
+        <!--
         <dependency>
             <groupId>com.sun.xml.ws</groupId>
             <artifactId>jaxws-rt</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>com.sun.xml.parsers</groupId>
             <artifactId>jaxp-ri</artifactId>
-            <version>1.4.5</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>jaxp-api</artifactId>
-                    <groupId>javax.xml.parsers</groupId>
-                </exclusion>
-            </exclusions>
+        </dependency>
+        -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>
         <plugins>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.jvnet.jax-ws-commons</groupId>
-                <artifactId>jaxws-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>compile</phase>
-                        <id>StreamFileService</id>
-                        <goals>
-                            <goal>wsgen</goal>
-                        </goals>
-                        <configuration>
-                            <encoding>UTF-8</encoding>
-                            <resourceDestDir>${basedir}/src/main/webapp/WEB-INF/wsdl</resourceDestDir>
-                            <genWsdl>true</genWsdl>
-                            <sei>ru.asander.ws.service.StreamFileService</sei>
-                            <keep>false</keep>
-                            <verbose>true</verbose>
-                            <inlineSchemas>true</inlineSchemas>
-                            <extension>true</extension>
-                            <!--<protocol>Xsoap1.2</protocol>-->
-                            <protocol>soap1.1</protocol>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <configuration>
-                    <!--<archive>-->
-                        <!--<manifestEntries>-->
-                            <!--&lt;!&ndash; Отключаем вебсферовскую реализацию JAX-WS в пользу Metro &ndash;&gt;-->
-                            <!--<DisableIBMJAXWSEngine>true</DisableIBMJAXWSEngine>-->
-                        <!--</manifestEntries>-->
-                    <!--</archive>-->
-                    <webResources>
-                        <resource>
-                            <directory>${basedir}/src/main/webapp/WEB-INF</directory>
-                            <filtering>true</filtering>
-                            <targetPath>WEB-INF</targetPath>
-                            <includes>
-                                <include>**/*.wsdl</include>
-                            </includes>
-                        </resource>
-                    </webResources>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat7-maven-plugin</artifactId>
-                <configuration>
-                    <url>http://localhost:8080/manager/text</url>
-                    <server>TomcatServer</server>
-                    <path>/test</path>
-                </configuration>
             </plugin>
         </plugins>
     </build>

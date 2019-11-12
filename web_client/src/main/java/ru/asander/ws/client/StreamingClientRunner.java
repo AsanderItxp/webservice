@@ -68,8 +68,8 @@ public class StreamingClientRunner {
         //Create DataHandler for file
         try {
 
-            dh = new DataSourceStreamingDataHandler(new FileDataSource(new File("U:\\source_file.bin"))); //TODO NPE
-//            dh = new DataSourceStreamingDataHandler(new FileDataSource(SOURCE_FILE_URL.getFile())); //TODO NPE
+//            dh = new DataSourceStreamingDataHandler(new FileDataSource(new File("U:\\source_file.bin"))); //TODO NPE
+            dh = new DataSourceStreamingDataHandler(new FileDataSource(SOURCE_FILE_URL.getFile())); //TODO NPE
             UploadDocReqType docReqType = new UploadDocReqType();
             DocumentType dt = new DocumentType();
             dt.setDocName(DESTINATION_FILE_PATH);
